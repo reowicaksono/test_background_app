@@ -20,7 +20,7 @@ jobs:
 
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: "3.38.0"
+          flutter-version: "3.38.5"
         env:
           KEY_JKS: ${{ secrets.MOBILE_RELEASE_KEYSTORE }}
           SIGNING_KEY_ALIAS: ${{ secrets.MOBILE_KEY_ALIAS }}
