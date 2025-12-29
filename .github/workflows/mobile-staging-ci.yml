@@ -30,7 +30,9 @@ jobs:
       - name: "Get App version"
         id: app_version
         run: |
-          echo "APP_VERSION=$(grep version pubspec.yaml | cut -d: -f2 | cut -d+ -f1 | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          APP_VERSION=$(grep -E "^version:" pubspec.yaml | sed 's/^version:[[:space:]]*//' | cut -d+ -f1 | tr -d ' ')
+          echo "APP_VERSION=$APP_VERSION" >> "$GITHUB_OUTPUT"
+          echo "Extracted version: $APP_VERSION"
 
       - name: Decode Keystore
         run: |
