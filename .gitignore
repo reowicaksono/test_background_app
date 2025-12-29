@@ -48,3 +48,4 @@ app.*.map.json
 .env.*
 firebase_options.dart
 google-services.json
+upload-keystore.*
