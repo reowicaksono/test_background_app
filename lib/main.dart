@@ -7,6 +7,8 @@ import 'package:test_background_service/app/app.dart';
 import 'package:test_background_service/firebase_options.dart';
 import 'package:test_background_service/firebase_message_services.dart';
 import 'package:test_background_service/notifications_services.dart';
+import 'package:test_background_service/core/injections/injection_container.dart'
+    as di;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +23,9 @@ void main() async {
 
   // TODO -> Initialize Environment
   await dotenv.load(fileName: ".env");
+
+  // TODO -> Initialize Dependency Injection
+  await di.init();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
