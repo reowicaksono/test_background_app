@@ -15,6 +15,9 @@ Future<void> init() async {
   sl.registerLazySingleton<http.Client>(() => http.Client());
 
   // Core
+  sl.registerLazySingleton<ConnectivityRepository>(
+    () => ConnectivityRepository(),
+  );
   sl.registerLazySingleton<ApiClient>(
     () => ApiClientImpl(connectivityRepository: sl<ConnectivityRepository>()),
   );
