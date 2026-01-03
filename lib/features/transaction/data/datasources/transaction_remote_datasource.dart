@@ -1,3 +1,4 @@
+import 'package:test_background_service/core/config/environment_config.dart';
 import 'package:test_background_service/core/errors/Failures.dart';
 import 'package:test_background_service/core/network/api_client_repositories.dart';
 import 'package:test_background_service/core/types/type.dart';
@@ -12,9 +13,10 @@ abstract class TransactionRemoteDatasource {
 }
 
 class TransactionRemoteDatasourceImpl implements TransactionRemoteDatasource {
-  const TransactionRemoteDatasourceImpl({required this.client});
+  TransactionRemoteDatasourceImpl({required this.client});
 
   final ApiClient client;
+  final String apiKey = EnvironmentConfig.apiKey;
 
   @override
   FutureResult<TransactionModel> sendNotification({
@@ -22,8 +24,9 @@ class TransactionRemoteDatasourceImpl implements TransactionRemoteDatasource {
     required TransactionModel transaction,
   }) async {
     final result = await client.post(
-      '/send-notification.php',
-      body: {'fcmToken': fcmToken, 'transaction': transaction.toJson()},
+      '/send_notification.php',
+      body: {'fcm_token': fcmToken, 'transaction': transaction.toJson()},
+      headers: {'X-API-KEY': apiKey},
     );
 
     return result.fold((failure) => Either.left(failure), (response) {
