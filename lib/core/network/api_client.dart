@@ -208,15 +208,10 @@ class ApiClientImpl implements ApiClient {
   Either<Failure, ApiResponse> _handleResponse(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode < 300) {
       try {
-        final Map<String, dynamic> jsonMap = response.body.isNotEmpty
-            ? jsonDecode(response.body)
-            : {};
         if (response.body.isEmpty) {
           return Either.right(ApiResponse.fromHttpResponse(response));
         }
-        return Either.right(
-          ApiResponse.fromHttpResponse(jsonMap as http.Response),
-        );
+        return Either.right(ApiResponse.fromHttpResponse(response));
       } catch (e) {
         return Either.left(
           Failure(
