@@ -26,9 +26,7 @@ class NotificationService {
 
     await _notifications.initialize(
       settings,
-      onDidReceiveNotificationResponse: (details) {
-        print('Notification tapped! : ${details.payload}');
-      },
+      onDidReceiveNotificationResponse: (details) {},
     );
 
     await _notifications
