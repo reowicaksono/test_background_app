@@ -1,22 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:test_background_service/app/routes/app_router.dart';
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test Background Service',
-      home: const HomeScreen(),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text('Hello, World!')));
+    return MaterialApp.router(title: "Test Background Service", debugShowCheckedModeBanner: false,routerConfig: AppRouter.router);
   }
 }
