@@ -49,7 +49,7 @@ jobs:
           echo storeFile=key.jks >> key.properties
 
       - name: "Create Firebase Options"
-        run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
+        run: echo "${{ secrets.FIREBASE_OPTIONS_BASE64 }}" | base64 -d > lib/firebase_options.dart
 
       - name: Create .env file
         run: |
