@@ -48,6 +48,9 @@ jobs:
           echo keyAlias=${{ secrets.MOBILE_KEY_ALIAS }} >> key.properties
           echo storeFile=key.jks >> key.properties
 
+      - name: "Create Firebase Options"
+        run: echo "${{ secrets.FIREBASE_OPTIONS }}" > lib/firebase_options.dart
+
       - name: Create .env file
         run: |
           echo "${{ vars.MOBILE_STAGING_ENV }}" > .env
