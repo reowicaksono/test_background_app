@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:test_background_service/app/app.dart';
+import 'package:test_background_service/core/logging/config_logging.dart';
 import 'package:test_background_service/firebase_options.dart';
 import 'package:test_background_service/firebase_message_services.dart';
 import 'package:test_background_service/notifications_services.dart';
@@ -12,6 +13,8 @@ import 'package:test_background_service/core/injections/injection_container.dart
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // TODO -> Initialize Logging App
+  LoggingConfig.init();
 
   // TODO -> Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
