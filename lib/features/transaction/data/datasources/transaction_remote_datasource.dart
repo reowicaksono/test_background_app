@@ -1,3 +1,5 @@
+import 'package:test_background_service/app/logger/app_logger.dart';
+import 'package:test_background_service/app/logger/enum_logger.dart';
 import 'package:test_background_service/core/config/environment_config.dart';
 import 'package:test_background_service/core/errors/Failures.dart';
 import 'package:test_background_service/core/network/api_client_repositories.dart';
@@ -29,35 +31,62 @@ class TransactionRemoteDatasourceImpl implements TransactionRemoteDatasource {
       headers: {'X-API-KEY': apiKey},
     );
 
-    return result.fold((failure) => Either.left(failure), (response) {
-      final data = response.data;
-      if (data == null) {
-        return Either.left(
-          Failure(
-            message: 'Data not found',
-            statusCode: SystemFailureStatusCode.valueError,
-          ),
+    return result.fold(
+      (failure) {
+        AppLogger.log(
+          "Failed to send notification ${failure.message}",
+          level: LogLevel.error,
+          error: failure,
+          tag: "Transaction Remote",
         );
-      }
-
-      try {
-        if (data is! DataMap) {
+        return Either.left(failure);
+      },
+      (response) {
+        final data = response.data;
+        if (data == null) {
+          AppLogger.log(
+            "Data not found in response",
+            level: LogLevel.warning,
+            tag: "Transaction Remote",
+          );
           return Either.left(
             Failure(
-              message: 'Invalid data format: expected Map',
+              message: 'Data not found',
+              statusCode: SystemFailureStatusCode.valueError,
+            ),
+          );
+        }
+
+        try {
+          if (data is! DataMap) {
+            AppLogger.log(
+              "Invalid data format: expected Map",
+              level: LogLevel.error,
+              tag: "Transaction Remote",
+            );
+            return Either.left(
+              Failure(
+                message: 'Invalid data format: expected Map',
+                statusCode: SystemFailureStatusCode.parsingError,
+              ),
+            );
+          }
+          AppLogger.log(
+            "Data found in response",
+            level: LogLevel.info,
+            tag: "Transaction Remote",
+            data: response.data,
+          );
+          return Either.right(TransactionModel.fromJson(data));
+        } catch (e) {
+          return Either.left(
+            Failure(
+              message: 'Failed to parse data: ${e.toString()}',
               statusCode: SystemFailureStatusCode.parsingError,
             ),
           );
         }
-        return Either.right(TransactionModel.fromJson(data));
-      } catch (e) {
-        return Either.left(
-          Failure(
-            message: 'Failed to parse data: ${e.toString()}',
-            statusCode: SystemFailureStatusCode.parsingError,
-          ),
-        );
-      }
-    });
+      },
+    );
   }
 }
