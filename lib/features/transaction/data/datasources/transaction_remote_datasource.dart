@@ -73,9 +73,9 @@ class TransactionRemoteDatasourceImpl implements TransactionRemoteDatasource {
           }
           AppLogger.log(
             "Data found in response",
-            error: data.toString(),
             level: LogLevel.info,
             tag: "Transaction Remote",
+            data: response.data,
           );
           return Either.right(TransactionModel.fromJson(data));
         } catch (e) {
