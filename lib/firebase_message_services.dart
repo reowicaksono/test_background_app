@@ -1,5 +1,8 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:test_background_service/core/injections/injection_container.dart';
+import 'package:test_background_service/core/utils/either.dart';
+import 'package:test_background_service/features/transaction/domain/usecases/save_fcmtoken_usecase.dart';
 import 'package:test_background_service/notifications_services.dart';
 
 class FirebaseMessagingService {
@@ -9,11 +12,13 @@ class FirebaseMessagingService {
   final msgService = FirebaseMessaging.instance;
 
   Future<void> init() async {
-    await msgService
-        .getToken()
-        .then((token) => debugPrint('FCM TOKEN: $token'))
-        .catchError((error) => debugPrint('FCM ERROR: $error'));
-
+    final fcmToken = await msgService.getToken();
+    if (fcmToken != null) {
+      final result = await sl<SaveFcmtokenUsecase>().call(
+        SaveFcmtokenParams(fcmToken: fcmToken),
+      );
+      result.fold((failure) => Either.left(failure), (_) => Either.right(null));
+    }
     NotificationSettings settings = await msgService.requestPermission(
       alert: true,
       announcement: false,

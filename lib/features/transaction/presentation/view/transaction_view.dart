@@ -17,6 +17,7 @@ class TransactionView extends StatefulWidget {
 class _TransactionViewState extends State<TransactionView> {
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
+  String? _fcmToken;
 
   @override
   void dispose() {
@@ -24,8 +25,15 @@ class _TransactionViewState extends State<TransactionView> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    context.read<TransactionBloc>().add(GetFcmTokenEvent());
+  }
+
   void _onSubmit(BuildContext context) {
     if (!_formKey.currentState!.validate()) return;
+    if (_fcmToken == null) return;
 
     final transaction = TransactionEntities(
       id: Helper.next(),
@@ -34,10 +42,7 @@ class _TransactionViewState extends State<TransactionView> {
     );
 
     context.read<TransactionBloc>().add(
-      SendTransactionEvent(
-        fcmToken: EnvironmentConfig.fcmToken,
-        transaction: transaction,
-      ),
+      SendTransactionEvent(fcmToken: _fcmToken!, transaction: transaction),
     );
   }
 
@@ -107,6 +112,14 @@ class _TransactionViewState extends State<TransactionView> {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.failure)));
+          }
+          if (state is GetFcmTokenSuccess) {
+            _fcmToken = state.fcmToken;
+          }
+          if (state is GetFcmTokenFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.failure)),
+            );
           }
         },
       ),

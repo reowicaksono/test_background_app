@@ -28,3 +28,23 @@ final class TransactionFailure extends TransactionState {
   @override
   List<Object> get props => [failure];
 }
+
+final class GetFcmTokenLoading extends TransactionState {}
+
+final class GetFcmTokenSuccess extends TransactionState {
+  const GetFcmTokenSuccess({required this.fcmToken});
+
+  final String fcmToken;
+
+  @override
+  List<Object> get props => [fcmToken];
+}
+
+final class GetFcmTokenFailure extends TransactionState {
+  const GetFcmTokenFailure({required this.failure});
+
+  final String failure;
+
+  @override
+  List<Object> get props => [failure];
+}

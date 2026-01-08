@@ -13,22 +13,21 @@ import 'package:test_background_service/core/injections/injection_container.dart
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // TODO -> Initialize Logging App
-  LoggingConfig.init();
+  // TODO -> Initialize Environment
+  await dotenv.load(fileName: ".env");
+  // TODO -> Initialize Dependency Injection
+  await di.init();
 
   // TODO -> Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // TODO -> Initialize Logging App
+  LoggingConfig.init();
 
   // TODO -> Service Notification Messaging
   await NotificationService.instance.init();
   await FirebaseMessagingService.instance.init();
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
-  // TODO -> Initialize Environment
-  await dotenv.load(fileName: ".env");
-
-  // TODO -> Initialize Dependency Injection
-  await di.init();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(const MyApp());
