@@ -19,3 +19,10 @@ class SendTransactionEvent extends TransactionEvent {
   @override
   List<Object> get props => [fcmToken, transaction];
 }
+
+class GetFcmTokenEvent extends TransactionEvent {
+  const GetFcmTokenEvent();
+
+  @override
+  List<Object> get props => [];
+}

@@ -6,4 +6,7 @@ abstract class TransactionRepositories {
     required String fcmToken,
     required TransactionEntities transaction,
   });
+  FutureResult<void> saveFcmToken({required String fcmToken});
+  FutureResult<String> getFcmToken();
+  FutureResult<void> clearFcmToken();
 }

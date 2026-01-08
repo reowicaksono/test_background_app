@@ -11,6 +11,7 @@ part 'transaction_state.dart';
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
   TransactionBloc(this.repositories) : super(TransactionInitial()) {
     on<SendTransactionEvent>(_onSendTransaction);
+    on<GetFcmTokenEvent>(_onGetFcmToken);
   }
 
   final TransactionRepositories repositories;
@@ -44,6 +45,34 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
           tag: "Transaction Bloc",
         );
         emit(TransactionSuccess(transaction: transaction));
+      },
+    );
+  }
+
+  Future<void> _onGetFcmToken(
+    GetFcmTokenEvent event,
+    Emitter<TransactionState> emit,
+  ) async {
+    emit(GetFcmTokenLoading());
+    final result = await repositories.getFcmToken();
+    result.fold(
+      (failure) {
+        AppLogger.log(
+          "Failed to get FCM token ${failure.message}",
+          level: LogLevel.error,
+          error: failure,
+          tag: "Transaction Bloc",
+        );
+        emit(GetFcmTokenFailure(failure: failure.message));
+      },
+      (fcmToken) {
+        AppLogger.log(
+          "Successfully got FCM token",
+          level: LogLevel.info,
+          data: fcmToken,
+          tag: "Transaction Bloc",
+        );
+        emit(GetFcmTokenSuccess(fcmToken: fcmToken));
       },
     );
   }

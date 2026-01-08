@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:test_background_service/core/api_response/api_response.dart';
 import 'package:test_background_service/core/config/environment_config.dart';
 import 'package:test_background_service/core/errors/Failures.dart';
-import 'package:test_background_service/core/interet_connectivity/internet_connectivity.dart';
+import 'package:test_background_service/core/internet_connectivity/internet_connectivity.dart';
 import 'package:test_background_service/core/network/api_client_repositories.dart';
 import 'package:test_background_service/core/network/interceptor/interceptor.dart';
 import 'package:test_background_service/core/types/type.dart';
