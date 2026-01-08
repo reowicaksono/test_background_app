@@ -16,7 +16,8 @@ jobs:
 
       - uses: actions/setup-java@v1
         with:
-          java-version: "21.x"
+          distribution: "temurin"
+          java-version: "17"
 
       - uses: subosito/flutter-action@v1
         with:
@@ -64,7 +65,7 @@ jobs:
 
       - name: Build APK
         run: |
-          flutter build apk
+          flutter build apk --release --no-daemon
 
       - name: Push to Staging Releases
         uses: ncipollo/release-action@v1
