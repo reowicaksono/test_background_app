@@ -65,7 +65,7 @@ jobs:
 
       - name: Build APK
         run: |
-          flutter build apk --release --no-daemon
+          flutter build apk
 
       - name: Push to Staging Releases
         uses: ncipollo/release-action@v1
