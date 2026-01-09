@@ -72,6 +72,8 @@ jobs:
         with:
           artifacts: "build/app/outputs/flutter-apk/*"
           tag: ${{ steps.app_version.outputs.APP_VERSION }}-staging
+          prerelease: true
+          generateReleaseNotes: true
           token: ${{ secrets.IMAGE_PUSH_TOKEN }}
 # build/ios/iphoneos/app.ipa
 
