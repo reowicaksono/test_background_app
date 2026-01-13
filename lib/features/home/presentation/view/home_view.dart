@@ -2,23 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:test_background_service/app/routes/app_routes_name.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
   @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  Calender calenderView = Calender.day;
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () => context.push(AppRoutesName.transaction),
-          child: Text(
-            "Go to Transaction",
-            style: Theme.of(
-              context,
-            ).textTheme.titleMedium?.copyWith(color: Colors.blue),
-          ),
+      body: Padding(
+        padding: EdgeInsets.all(24),
+        child: ListView(
+          children: [
+            SegmentedButton<Calender>(
+              segments: const <ButtonSegment<Calender>>[
+                ButtonSegment<Calender>(
+                  value: Calender.day,
+                  label: Text('Day'),
+                  icon: Icon(Icons.calendar_view_day),
+                ),
+                ButtonSegment<Calender>(
+                  value: Calender.week,
+                  label: Text('Week'),
+                  icon: Icon(Icons.calendar_view_week),
+                ),
+                ButtonSegment<Calender>(
+                  value: Calender.month,
+                  label: Text('Week'),
+                  icon: Icon(Icons.calendar_view_month),
+                ),
+                ButtonSegment<Calender>(
+                  value: Calender.year,
+                  label: Text('Year'),
+                  icon: Icon(Icons.calendar_today),
+                ),
+              ],
+              selected: <Calender>{calenderView},
+              onSelectionChanged: (Set<Calender> newSelection) {
+                setState(() {
+                  calenderView = newSelection.first;
+                });
+              },
+            ),
+            TextButton(
+              onPressed: () => context.push(AppRoutesName.transaction),
+              child: Text(
+                "Go to Transaction",
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(color: Colors.blue),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+
+enum Calender { day, week, month, year }
