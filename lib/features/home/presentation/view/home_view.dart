@@ -18,6 +18,7 @@ class _HomeViewState extends State<HomeView> {
         padding: EdgeInsets.all(24),
         child: ListView(
           children: [
+            // segmented button
             SegmentedButton<Calender>(
               segments: const <ButtonSegment<Calender>>[
                 ButtonSegment<Calender>(
@@ -48,6 +49,53 @@ class _HomeViewState extends State<HomeView> {
                 });
               },
             ),
+            // chio
+            SizedBox(height: 24),
+            SizedBox(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                runSpacing: 4,
+                children: [
+                  Chip(
+                    avatar: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        'https://cache.lahelu.com/thumbnail-PKzWM0FJ9-55851',
+                      ),
+                    ),
+                    label: Text('hidup jokowi'),
+                  ),
+                  Chip(
+                    avatar: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        'https://cache.lahelu.com/thumbnail-PKzWM0FJ9-55851',
+                      ),
+                    ),
+                    label: Text('hidup blonde'),
+                  ),
+                  Chip(
+                    avatar: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        'https://cache.lahelu.com/thumbnail-PKzWM0FJ9-55851',
+                      ),
+                    ),
+                    label: Text('hidup windah batubara'),
+                  ),
+                  Chip(
+                    avatar: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: NetworkImage(
+                        'https://cache.lahelu.com/thumbnail-PKzWM0FJ9-55851',
+                      ),
+                      backgroundColor: Colors.black,
+                    ),
+                    label: Text('hidup sawit'),
+                  ),
+                ],
+              ),
+            ),
+            // button text
+            SizedBox(height: 24),
             TextButton(
               onPressed: () => context.push(AppRoutesName.transaction),
               child: Text(
